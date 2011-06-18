@@ -213,7 +213,7 @@ function prepare_project_config()
     cp "$PWD/config/app_config-sql.yml" "$PWD/config/app_config-sql.yml-tmp"
     DF="$PWD/config/app_config-sql.yml"
 
-    cat "$DF" | sed -e "s/\[DB_TYPE\]/$PROJECT_TYPE/g" -e "s/\[PROJECT\]/'$PROJECT_NAME'/g" > "$DF-tmp"
+    cat "$DF" | sed -e "s/\[DB_TYPE\]/$PROJECT_TYPE/g" -e "s/\[PROJECT\]/$PROJECT_NAME/g" > "$DF-tmp"
     mv "$PWD/config/app_config-sql.yml-tmp" "$PWD/config/app_config.yml"
     rm "$DF"
     rm "$PWD/config/app_config-mongo.yml"
@@ -221,7 +221,7 @@ function prepare_project_config()
     cp "$PWD/config/app_config-mongo.yml" "$PWD/config/app_config-mongo.yml-tmp"
     DF="$PWD/config/app_config-mongo.yml"
 
-    cat "$DF" | sed -e "s/\[DB_TYPE\]/$PROJECT_TYPE/g" -e "s/\[PROJECT\]/'$PROJECT_NAME'/g" > "$DF-tmp"
+    cat "$DF" | sed -e "s/\[DB_TYPE\]/$PROJECT_TYPE/g" -e "s/\[PROJECT\]/$PROJECT_NAME/g" > "$DF-tmp"
     mv "$PWD/config/app_config-mongo.yml-tmp" "$PWD/config/app_config.yml"
     rm "$DF"
     rm "$PWD/config/app_config-sql.yml"
@@ -231,7 +231,7 @@ function prepare_project_config()
     cp "$PWD/package-sql.json" "$PWD/package-sql.json-tmp"
     DF="$PWD/package-sql.json"
 
-    cat "$DF" | sed -e "s/\[DB_TYPE\]/$PROJECT_TYPE/g" -e "s/\[PROJECT\]/'$PROJECT_NAME'/g" > "$DF-tmp"
+    cat "$DF" | sed -e "s/\[DB_TYPE\]/$PROJECT_TYPE/g" -e "s/\[PROJECT\]/$PROJECT_NAME/g" > "$DF-tmp"
     mv "$PWD/package-sql.json-tmp" "$PWD/package.json"
     rm "$DF"
     rm "$PWD/package-mongo.json"
@@ -239,7 +239,7 @@ function prepare_project_config()
     cp "$PWD/config/requirements-sql.json" "$PWD/config/requirements-sql.json-tmp"
     DF="$PWD/config/requirements-sql.json"
 
-    cat "$DF" | sed -e "s/\[DB_TYPE\]/$PROJECT_TYPE/g" -e "s/\[PROJECT\]/'$PROJECT_NAME'/g" > "$DF-tmp"
+    cat "$DF" | sed -e "s/\[DB_TYPE\]/$PROJECT_TYPE/g" -e "s/\[PROJECT\]/$PROJECT_NAME/g" > "$DF-tmp"
     mv "$PWD/config/requirements-sql.json-tmp" "$PWD/config/requirements.json"
     rm "$DF"
     rm "$PWD/config/requirements-mongo.json"
@@ -247,7 +247,7 @@ function prepare_project_config()
     cp "$PWD/package-mongo.json" "$PWD/package-mongo.json-tmp"
     DF="$PWD/package-mongo.json"
 
-    cat "$DF" | sed -e "s/\[DB_TYPE\]/$PROJECT_TYPE/g" -e "s/\[PROJECT\]/'$PROJECT_NAME'/g" > "$DF-tmp"
+    cat "$DF" | sed -e "s/\[DB_TYPE\]/$PROJECT_TYPE/g" -e "s/\[PROJECT\]/$PROJECT_NAME/g" > "$DF-tmp"
     mv "$PWD/package-mongo.json-tmp" "$PWD/package.json"
     rm "$DF"
     rm "$PWD/package-sql.json"
