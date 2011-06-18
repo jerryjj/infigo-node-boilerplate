@@ -31,9 +31,7 @@ tmpcfg = require('yaml').eval(
 global.config = CoffeeScript.helpers.merge tmpcfg['common'], tmpcfg[app.settings.env]
 
 app.set 'db_type', global.config.db_type
-app.set 'db_user', global.config.db_user
-app.set 'db_pass', global.config.db_pass
-app.set 'db_name', global.config.db_name
+app.set 'db_uri', global.config.db_uri
 
 app.configure 'development', () ->
   console.log "configure development"  
