@@ -1,3 +1,21 @@
+This is project template for Node.js based project we create in our company.
+It is written with Coffee-Script.
+It uses Express.js and Jade as template language
+It also has user authentication and authorization implemented.
+As storage it support either MySQL, Drizzle or MongoDB
+
+## User authorization details
+
+There are users, groups and roles
+User can belong to any number of groups
+Roles can be assigned to groups and users
+Groups and Users can have many roles
+
+To check roles in routes (urls) one just has to call Auth.requireRole with space separated list of roles required. (see routes/admin/index.coffee)
+Missing roles are created automatically.
+
+Currently project doesn't include routes for managing user,groups or roles, but this is coming soon.
+
 # To create new project
 
 1. Clone as project name. (ie. "git clone git@github.com:jerryjj/infigo-node-boilerplate.git projectx")
