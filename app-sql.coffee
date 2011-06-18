@@ -29,6 +29,8 @@ tmpcfg = require('yaml').eval(
 global.config = CoffeeScript.helpers.merge tmpcfg['common'], tmpcfg[app.settings.env]
 
 app.set 'db_type', global.config.db_type
+app.set 'db_host', global.config.db_host
+app.set 'db_port', global.config.db_port
 app.set 'db_user', global.config.db_user
 app.set 'db_pass', global.config.db_pass
 app.set 'db_name', global.config.db_name
@@ -48,7 +50,7 @@ app.configure 'production', () ->
   console.log "configure production"
   app.use express.errorHandler()
 
-db = require('db-mysql')[app.set('db_type')].Database
+db = require('db-'+app.set('db_type')).Database
 app.sqlClient = new db(
   hostname: app.set 'db_host'
   port: app.set 'db_port'
