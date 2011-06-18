@@ -209,12 +209,23 @@ function prepare_project_config()
 {
   print_info "Preparing project config"
   
-  cp "$PWD/config/app_config.yml" "$PWD/config/app_config.yml-tmp"
-  DF="$PWD/config/app_config.yml"
-  
-  cat "$DF" | sed -e "s/\[DB_TYPE\]/$PROJECT_TYPE/g" -e "s/\[PROJECT\]/'$PROJECT_NAME'/g" > "$DF-tmp"
-  rm "$DF"
-  mv "$PWD/config/app_config.yml-tmp" "$PWD/config/app_config.yml"
+  if [[ $PROJECT_TYPE == "mysql" ]] || [[ $PROJECT_TYPE == "drizzle" ]]; then
+    cp "$PWD/config/app_config-sql.yml" "$PWD/config/app_config-sql.yml-tmp"
+    DF="$PWD/config/app_config-sql.yml"
+
+    cat "$DF" | sed -e "s/\[DB_TYPE\]/$PROJECT_TYPE/g" -e "s/\[PROJECT\]/'$PROJECT_NAME'/g" > "$DF-tmp"
+    mv "$PWD/config/app_config-sql.yml-tmp" "$PWD/config/app_config.yml"
+    rm "$DF"
+    rm "$PWD/config/app_config-mongo.yml"
+  else
+    cp "$PWD/config/app_config-mongo.yml" "$PWD/config/app_config-mongo.yml-tmp"
+    DF="$PWD/config/app_config-mongo.yml"
+
+    cat "$DF" | sed -e "s/\[DB_TYPE\]/$PROJECT_TYPE/g" -e "s/\[PROJECT\]/'$PROJECT_NAME'/g" > "$DF-tmp"
+    mv "$PWD/config/app_config-mongo.yml-tmp" "$PWD/config/app_config.yml"
+    rm "$DF"
+    rm "$PWD/config/app_config-sql.yml"
+  fi
   
   if [[ $PROJECT_TYPE == "mysql" ]] || [[ $PROJECT_TYPE == "drizzle" ]]; then
     cp "$PWD/package-sql.json" "$PWD/package-sql.json-tmp"

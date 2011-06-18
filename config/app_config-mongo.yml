@@ -1,0 +1,11 @@
+common:
+  cookie_secret: '73f4e2645t2dssd51b85d633bcb4307'
+  db_type: '[DB_TYPE]'
+production:
+  db_uri: 'mongodb://localhost/[PROJECT]'
+staging:
+  db_uri: 'mongodb://localhost/[PROJECT]-staging'
+test:
+  db_uri: 'mongodb://localhost/[PROJECT]-test'
+development:
+  db_uri: 'mongodb://localhost/[PROJECT]-dev'
