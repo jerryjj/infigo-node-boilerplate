@@ -222,7 +222,6 @@ sys.inherits NotFound, Error
 
 if !module.parent
   funk.parallel () ->
-    dialect.sync {interval: 60 * 1000}, () ->
     app.listen port
     console.log 'Express server listening on port %d, environment: %s', app.address().port, app.settings.env  
     console.log 'Using connect %s, Express %s', connect.version, express.version
