@@ -66,7 +66,6 @@ app.sqlClient = new db(
           `firstname` varchar(255) NOT NULL DEFAULT '',
           `lastname` varchar(255) NOT NULL DEFAULT '',
           `email` varchar(255) NOT NULL DEFAULT '',
-          `status` int unsigned NOT NULL DEFAULT 0,
           PRIMARY KEY (`id`),
           UNIQUE KEY (`username`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
