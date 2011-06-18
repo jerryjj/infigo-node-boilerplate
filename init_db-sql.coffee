@@ -221,6 +221,6 @@ app.sqlClient = new db(
     
     setTimeout( () ->
       process.exit 0
-    , 1000)
+    , 2000)
 )
 app.sqlClient.connect()
