@@ -39,7 +39,7 @@ app.configure 'production', () ->
   console.log "configure production"  
   app.use express.errorHandler()
 
-User = Group = Role = LoginToken = db = null
+User = Group = GroupUser = Role = RoleGroup = Instruction = db = null
 
 models.defineModels mongoose, () ->
   db = mongoose.connect app.set('db-uri')
