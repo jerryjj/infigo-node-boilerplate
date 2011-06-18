@@ -1,5 +1,5 @@
 common:
-  cookie_secret: 73f4e2645t2dssd51b85d633bcb4307
+  cookie_secret: '73f4e2645t2dssd51b85d633bcb4307'
   db_type: 'DB_TYPE'
   db_host: 'lcoalhost'
   db_port: 3306
