@@ -69,8 +69,9 @@ app.sqlClient = new db(
           `last_login` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
           PRIMARY KEY (`id`),
           UNIQUE KEY (`username`)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
       (err) ->
+        console.log 'users table created'
         if err
           throw err
         
@@ -95,8 +96,9 @@ app.sqlClient = new db(
           `name` varchar(255) NOT NULL DEFAULT '',
           PRIMARY KEY (`id`),
           UNIQUE KEY (`name`)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
       (err) ->
+        console.log 'groups table created'
         if err
           throw err
           
@@ -120,8 +122,9 @@ app.sqlClient = new db(
           `group_id` bigint NOT NULL DEFAULT 0,
           `user_id` bigint NOT NULL DEFAULT 0,
           PRIMARY KEY (`id`)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
       (err) ->
+        console.log 'group_users table created'
         if err
           throw err
           
@@ -145,8 +148,9 @@ app.sqlClient = new db(
           `key` varchar(255) NOT NULL DEFAULT '',
           PRIMARY KEY (`id`),
           UNIQUE KEY (`key`)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
       (err) ->
+        console.log 'roles table created'
         if err
           throw err
           
@@ -170,8 +174,9 @@ app.sqlClient = new db(
           `role_id` bigint NOT NULL DEFAULT 0,
           `user_id` bigint NOT NULL DEFAULT 0,
           PRIMARY KEY (`id`)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
       (err) ->
+        console.log 'role_users table created'
         if err
           throw err
           
@@ -195,8 +200,9 @@ app.sqlClient = new db(
           `role_id` bigint NOT NULL DEFAULT 0,
           `group_id` bigint NOT NULL DEFAULT 0,
           PRIMARY KEY (`id`)
-      ) ENGINE=InnoDB DEFAULT CHARSET=utf8;"
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
       (err) ->
+        console.log 'role_groups table created'
         if err
           throw err
           
