@@ -31,6 +31,8 @@ Currently project doesn't include routes for managing user,groups or roles, but 
   * --deploy.host (ie. --deploy.host=projectx.com)
   * --git.remote (ie. --git.remote=git@github.com:jerryjj/projectx.git)
 
+NOTE: If selected type is mysql or drizzle you must manually run init_db script after creating database and sql user. (see initproject.sh output for details)
+
 # Deploy to server
 
 ## Requirements
