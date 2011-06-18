@@ -2,7 +2,7 @@
 
 1. Clone as project name. (ie. "git clone git@github.com:jerryjj/infigo-node-boilerplate.git projectx")
 2. Go to project dir (ie. cd projectx)
-3. Run ./bin/initproject.sh --name=projectx --type=mysql
+3. Run ./bin/initproject.sh --name projectx --type mysql
 
   --type can be "mysql","drizzle","mongo" defaults to "mysql"
   Additional arguments for initproject.sh: (more info ./bin/initproject.sh --help)
