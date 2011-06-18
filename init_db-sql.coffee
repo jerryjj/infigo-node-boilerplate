@@ -42,7 +42,7 @@ app.configure 'production', () ->
   console.log "configure production"  
   app.use express.errorHandler()
 
-db = require('db-mysql')[app.set('db_type')].Database
+db = require('db-mysql')[app.set('db_type')].Database(
   hostname: app.set 'db_host'
   port: app.set 'db_port'
   database: app.set 'db_name'
