@@ -117,8 +117,12 @@ app.commonLocals = (req, ext) ->
       analyticssiteid: ''
       auth: app.authLocals(req)
       inAdmin: false
+
+  tmp = CoffeeScript.helpers.merge common, ext
+  if ext.locals
+    tmp.locals = CoffeeScript.helpers.merge common.locals, ext.locals
   
-  return CoffeeScript.helpers.merge common, ext
+  return tmp
 
 app.adminCommonLocals = (req, ext) ->
   if not ext
@@ -131,7 +135,11 @@ app.adminCommonLocals = (req, ext) ->
       inAdmin: true
   )
   
-  app.commonLocals req, CoffeeScript.helpers.merge common, ext
+  tmp = CoffeeScript.helpers.merge common, ext
+  if ext.locals
+    tmp.locals = CoffeeScript.helpers.merge common.locals, ext.locals
+  
+  app.commonLocals req, tmp
 
 # Auth routes
 
@@ -140,11 +148,7 @@ Auth = require 'authorization'
 ## Login route
 app.get '/auth/login', (req, res) ->
   res.render 'auth/login',
-    app.commonLocals(req,
-      locals:
-        auth:
-          hasUser: false
-    )
+    app.commonLocals req
 
 ## Process Login route
 app.post '/auth/login', (req, res) ->  

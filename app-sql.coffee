@@ -146,11 +146,7 @@ Auth = require 'authorization'
 ## Login route
 app.get '/auth/login', (req, res) ->
   res.render 'auth/login',
-    app.commonLocals(req,
-      locals:
-        auth:
-          hasUser: false
-    )
+    app.commonLocals req
 
 ## Process Login route
 app.post '/auth/login', (req, res) ->  
