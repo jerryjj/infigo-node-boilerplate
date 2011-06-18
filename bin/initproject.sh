@@ -300,8 +300,10 @@ function cleanup_template_git()
 function initialize_project_git()
 {
   print_info "Initializing new Git project"
-  git init
-  git add *
+  git init  
+  git add *  
+  git add .gitmodules
+  git submodule init
   git commit -a -m "Initial commit"
   
   if [[ $GIT_REMOTE != "" ]]; then
