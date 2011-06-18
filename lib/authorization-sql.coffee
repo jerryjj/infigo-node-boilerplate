@@ -6,7 +6,7 @@ _checkRoleByKey = (app, key) ->
     from('roles').
     where('key = ?', [key]).
     execute (err, rows, cols) ->
-      if err || rows.length < 1
+      if err || (rows && rows.length < 1)
         app.sqlClient.query().
           insert('roles',
             ['key'],
