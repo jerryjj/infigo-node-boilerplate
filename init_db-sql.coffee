@@ -145,9 +145,9 @@ app.sqlClient = new db(
     app.sqlClient.query().execute(
       "CREATE TABLE IF NOT EXISTS `roles` (
           `id` bigint unsigned NOT NULL auto_increment,
-          `key` varchar(255) NOT NULL DEFAULT '',
+          `name` varchar(255) NOT NULL DEFAULT '',
           PRIMARY KEY (`id`),
-          UNIQUE KEY (`key`)
+          UNIQUE KEY (`name`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
       (err) ->
         console.log 'roles table created'
@@ -157,7 +157,7 @@ app.sqlClient = new db(
         console.log "Creating default role 'admin'"
         app.sqlClient.query().
           insert('roles',
-            ['key'],
+            ['name'],
             ['admin']
           ).execute (err, result) ->
             if err

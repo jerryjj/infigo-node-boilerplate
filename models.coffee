@@ -80,7 +80,7 @@ defineModels = (mongoose, next) ->
     for rk in roles
       do (rk) ->
         tasks.push (cb) ->
-          Role.findOne {key: rk}, (err, role) ->
+          Role.findOne {name: rk}, (err, role) ->
             if err || !role
               return cb(null, 0)
             if role.hasUser user_id
@@ -156,7 +156,7 @@ defineModels = (mongoose, next) ->
   Model: Role
   ###
   Role = new Schema
-    key:
+    name:
       type: String
       validate: [validatePresenceOf, 'key is required']
       index:

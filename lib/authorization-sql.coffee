@@ -1,19 +1,19 @@
 crypto = require 'crypto'
 
-_checkRoleByKey = (app, key) ->
+_checkRoleByName = (app, name) ->
   app.sqlClient.query().
     select('id').
     from('roles').
-    where('key = ?', [key]).
+    where('name = ?', [name]).
     execute (err, rows, cols) ->
       if err || (rows && rows.length < 1)
         app.sqlClient.query().
           insert('roles',
-            ['key'],
-            [key]
+            ['name'],
+            [name]
           ).execute (err, result) ->
             if err
-              throw err
+              console.log err
         return
       return
   return
@@ -56,12 +56,12 @@ class Authorization
       else
         res.redirect '/auth/login?' + redirect_to
 
-  requireRole: (keys) ->
+  requireRole: (names) ->
     return (req, res, next) =>    
-      role_keys = keys.split(' ')      
+      role_names = names.split(' ')      
 
-      for key in role_keys
-        _checkRoleByKey req.app, key
+      for name in role_names
+        _checkRoleByName req.app, name
       
       @requireLogin req, res, () ->            
         #TODO: implement like in mongo

@@ -5,10 +5,10 @@ Group = mongoose.model 'Group'
 Role = mongoose.model 'Role'
 LoginToken = mongoose.model 'LoginToken'  
 
-_checkRoleByKey = (key) ->
-  Role.findOne {key: key}, (err, role) ->
+_checkRoleByName = (name) ->
+  Role.findOne {name: name}, (err, role) ->
     if err || !role
-      r = new Role key: key
+      r = new Role name: name
       r.save()
   return
 
@@ -49,17 +49,17 @@ class Authorization
       else
         res.redirect '/auth/login?' + redirect_to
 
-  requireRole: (keys) ->     
+  requireRole: (names) ->     
     return (req, res, next) =>
-      role_keys = keys.split(' ')      
+      role_names = names.split(' ')      
       
-      for key in role_keys
-        _checkRoleByKey key
+      for name in role_names
+        _checkRoleByName name
       
       @requireLogin req, res, () ->
-        req.currentUser.hasRoles(role_keys, (tot) ->
+        req.currentUser.hasRoles(role_names, (tot) ->
           #console.log '%s / %s', tot, role_keys.length
-          if tot >= role_keys.length            
+          if tot >= role_names.length            
             return next()
           else
             return res.redirect '/403'
