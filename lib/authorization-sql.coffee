@@ -63,13 +63,48 @@ class Authorization
       for name in role_names
         _checkRoleByName req.app, name
       
-      @requireLogin req, res, () ->            
-        #TODO: implement like in mongo
-        
-        # 1. check if user has role
-        # 2. check if user groups has role
-        # 3. compare role_keys length with matched length
-        next()
+      @requireLogin req, res, () =>            
+        @userHasRoles(req.app, req.currentUser.id, role_names, (matched) ->
+          if matched
+            return next()
+          else
+            return res.redirect '/403'
+        )
+  
+  userHasRoles: (app, user_id, roles, next) ->
+    tasks = []
+    roles_length = roles.length
+
+    tasks.push (cb) ->    
+      app.sqlClient.query().
+        select(['roles.id', 'role_users.user_id']).
+        from('roles').
+        join({table:'role_users', type:'INNER', conditions:"role_users.role_id = roles.id"}).
+        where('roles.name IN ? AND role_users.user_id = ?', [roles, user_id]).
+        execute (err, rows, cols) ->
+          if roles_length == rows.length
+            cb(null, 1)
+          else
+            cb(null, 0)
+
+    tasks.push (cb) ->
+      app.sqlClient.query().
+        select(['roles.id', 'role_groups.group_id', 'group_users.user_id']).
+        from('roles').
+        join({table:'role_groups', type:'INNER', conditions:"role_groups.role_id = roles.id"}).
+        join({table:'group_users', type:'INNER', conditions:"group_users.group_id = role_groups.group_id"}).
+        where('roles.name IN ? AND group_users.user_id = ?', [roles, user_id]).
+        execute (err, rows, cols) ->
+          if roles_length == rows.length
+            cb(null, 1)
+          else
+            cb(null, 0)
+
+    async.series tasks, (err, results) ->
+      if results.indexOf(1) > -1
+        next(true)
+      else
+        next(false)
   
   makeSalt: () ->
     salt = Math.round(new Date().valueOf() * Math.random()) + ''
