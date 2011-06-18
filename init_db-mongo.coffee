@@ -46,8 +46,9 @@ models.defineModels mongoose, () ->
 
   app.User = User = mongoose.model 'User'
   app.Group = Group = mongoose.model 'Group'
+  app.GroupUser = GroupUser = mongoose.model 'GroupUser'
   app.Role = Role = mongoose.model 'Role'
-  app.LoginToken = LoginToken = mongoose.model 'LoginToken'
+  app.RoleGroup = RoleGroup = mongoose.model 'RoleGroup'
     
 # Create default user
 console.log "Creating default user 'admin' with password admin"
