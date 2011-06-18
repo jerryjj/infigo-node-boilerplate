@@ -27,8 +27,11 @@
 
 If deploy.* and git.remote options were configured when initproject.sh was run, (or configured manually to config/deploy.rb)
 One can run
+
 1. cap staging deploy:setup
 2. cap staging deploy
+
 OR
+
 1. cap production deploy:setup
 2. cap production deploy
