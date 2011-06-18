@@ -1,12 +1,6 @@
 [submodule "support/html5-boilerplate"]
 	path = support/html5-boilerplate
 	url = https://github.com/robrighter/html5-boilerplate.git
-[submodule "support/Socket.IO"]
-	path = support/Socket.IO
-	url = http://github.com/LearnBoost/Socket.IO.git
-[submodule "support/Socket.IO-node"]
-	path = support/Socket.IO-node
-	url = http://github.com/LearnBoost/Socket.IO-node.git
 [submodule "support/dateformat"]
 	path = support/dateformat
 	url = https://github.com/felixge/node-dateformat.git
