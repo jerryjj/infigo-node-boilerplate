@@ -74,7 +74,6 @@ app.sqlClient = new db(
         if err
           throw err
         
-        
         console.log "Creating default user 'admin' with password admin"
         salt = Auth.makeSalt()        
         app.sqlClient.query().
@@ -85,7 +84,8 @@ app.sqlClient = new db(
             if err
               console.log 'ERROR creating user: ' + err
               throw err
-            console.log 'User created with id: %s', result.id
+            if result
+              console.log 'User created with id: %s', result.id
     )
     
     console.log 'creating table groups'
@@ -109,7 +109,8 @@ app.sqlClient = new db(
             if err
               console.log 'ERROR creating group: ' + err
               throw err
-            console.log 'Group created with id: %s', result.id
+            if result
+              console.log 'Group created with id: %s', result.id
     )
     
     console.log 'creating table group_users'
@@ -133,7 +134,8 @@ app.sqlClient = new db(
             if err
               console.log 'ERROR assigning user to group: ' + err
               throw err
-            console.log 'Group assigment created with id: %s', result.id
+            if result
+              console.log 'Group assigment created with id: %s', result.id
     )
     
     console.log 'creating table roles'
@@ -157,7 +159,8 @@ app.sqlClient = new db(
             if err
               console.log 'ERROR creating role: ' + err
               throw err
-            console.log 'Role created with id: %s', result.id
+            if result
+              console.log 'Role created with id: %s', result.id
     )
     
     console.log 'creating table role_users'
@@ -181,7 +184,8 @@ app.sqlClient = new db(
             if err
               console.log 'ERROR assigning user to role: ' + err
               throw err
-            console.log 'Role assigment created with id: %s', result.id
+            if result
+              console.log 'Role assigment created with id: %s', result.id
     )
     
     console.log 'creating table role_groups'
@@ -205,7 +209,8 @@ app.sqlClient = new db(
             if err
               console.log 'ERROR assigning group to role: ' + err
               throw err
-            console.log 'Role assigment created with id: %s', result.id
+            if result
+              console.log 'Role assigment created with id: %s', result.id
     )
     
     setTimeout( () ->
