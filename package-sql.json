@@ -1,0 +1,23 @@
+{
+  "name": "[PROJECT]",
+  "description": "[PROJECT] description here",
+  "version": "0.0.1",
+  "homepage": "",
+  "author": "",
+  "directories": {
+    "public": "./static"
+  },
+  "engines": {
+    "node": ">= 0.4.3"
+  },
+  "dependencies": {
+    "express": ">= 2.3.2",
+    "connect": ">= 1.2.1",
+    "yaml": ">= 0.1.1",
+    "coffee-script": ">= 1.0.1",
+    "jade": ">= 0.11.0",
+    "funk": ">= 1.0.1",
+    "db-[DB_TYPE]": ">= 0.6.5"
+  }
+}
+

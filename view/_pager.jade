@@ -1,0 +1,4 @@
+ul.pager
+  - each page, i in pager.pages()
+    li(class=(page.active?'active ':'')+(i%2==0?'odd':'even')+(' type_'+page.type))
+      a(href=page.url)!= page.val

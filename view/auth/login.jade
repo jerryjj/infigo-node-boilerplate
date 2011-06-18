@@ -1,0 +1,10 @@
+div
+  form#login_form(name="login_form", method="post")
+    div.field
+      label.ui-state-default.ui-corner-left(for="username") Käyttäjätunnus:
+      input#username.text.ui-widget-content.ui-corner-right.required(name='user[username]', value='', type="text")
+    div.field
+      label.ui-state-default.ui-corner-left(for="password") Salasana:
+      input#password.text.ui-widget-content.ui-corner-right.required(name='user[password]', value='', type="password")
+    
+    input.submit(type='submit', value='Kirjaudu')
