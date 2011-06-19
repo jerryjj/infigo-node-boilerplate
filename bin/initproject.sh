@@ -303,6 +303,7 @@ function initialize_project_git()
   git init  
   git add *  
   git add .gitmodules
+  git add .gitignore
   git submodule init
   git commit -a -m "Initial commit"
   
@@ -322,6 +323,12 @@ function initialize_project_storage()
   fi
 }
 
+function install_npm_dependencies()
+{
+  print_info "Installing npm dependencies (locally)"
+  
+  npm install --local
+}
 
 init_submodules
 prepare_statics
@@ -337,9 +344,11 @@ elif [ "$PROJECT_TYPE" == "mongo" ]; then
   prepare_type_mongo
 fi
 
-initialize_project_storage
-
 cleanup_template_git
 initialize_project_git
+
+install_npm_dependencies
+
+initialize_project_storage
 
 safe_exit
