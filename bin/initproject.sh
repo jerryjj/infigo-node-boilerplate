@@ -23,6 +23,7 @@ function safe_exit()
 {
   echo " -- Safely exiting..."
   cleanup
+  show_launch_help
   exit 0
 }
 
@@ -46,6 +47,15 @@ function show_help()
      --git.remote                          Git remote url
 
 EOF
+}
+
+function show_launch_help()
+{
+  echo ""
+  print_info "If you see no error or notifications up, then"
+  print_info "you can launch your project with command"
+  print_info "coffee app.coffee"
+  echo ""
 }
 
 # --- helper functions ---
