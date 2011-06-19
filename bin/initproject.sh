@@ -328,6 +328,7 @@ function install_npm_dependencies()
   print_info "Installing npm dependencies (locally)"
   
   npm install --local
+  echo " -- "
 }
 
 init_submodules
