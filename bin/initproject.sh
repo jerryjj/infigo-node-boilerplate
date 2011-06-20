@@ -9,7 +9,7 @@ function print_info()
           
 function print_warn()
 {
-  echo " ** $1. You may want to look into this, continuing..."
+  echo " ** $1"
 }
  
 function force_exit()   
@@ -306,6 +306,7 @@ function cleanup_template_git()
   print_info "Cleaning template project"
   rm -fR "$PWD/.git"
   echo "bin/initproject.sh" >> "$PWD/.gitignore"
+  echo "" > "$PWD/README.md"
 }
 
 function initialize_project_git()
@@ -328,7 +329,7 @@ function initialize_project_storage()
   print_info "Initializing project storage"
 
   if [[ $PROJECT_TYPE == "mysql" ]] || [[ $PROJECT_TYPE == "drizzle" ]]; then
-    print_info "Create configured database and user. Then run 'coffee init_db.coffee' in project dir ($PWD)."
+    print_warn "Create configured database and user. Then run 'coffee init_db.coffee' in project dir ($PWD)."
   else
     coffee "$PWD/init_db.coffee"
   fi
