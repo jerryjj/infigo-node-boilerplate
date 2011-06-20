@@ -61,6 +61,7 @@ function show_launch_help()
 function cleanup()
 {
   print_info "Cleaning up"
+  rm "$PWD/bin/initproject.sh"
 }
 
 function create_dir()
@@ -304,8 +305,8 @@ function cleanup_template_git()
 {
   print_info "Cleaning template project"
   rm -fR "$PWD/.git"
-  echo "bin/initproject.sh" >> "$PWD/.gitignore"
-  echo "" > "$PWD/README.md"
+  rm "$PWD/README.md"
+  mv "$PWD/README-project.md" "$PWD/README.md"
 }
 
 function initialize_project_git()
