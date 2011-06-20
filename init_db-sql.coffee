@@ -59,7 +59,7 @@ app.sqlClient = new db(
     console.log 'creating table users'
     app.sqlClient.query().execute(
       "CREATE TABLE IF NOT EXISTS `users` (
-          `id` bigint unsigned NOT NULL auto_increment,
+          `id` bigint NOT NULL auto_increment,
           `username` varchar(255) NOT NULL DEFAULT '',
           `hashed_password` varchar(255) NOT NULL DEFAULT '',
           `salt` varchar(255) NOT NULL DEFAULT '',
@@ -70,157 +70,159 @@ app.sqlClient = new db(
           PRIMARY KEY (`id`),
           UNIQUE KEY (`username`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
-      (err) ->
-        console.log 'users table created'
+      (err) ->        
         if err
           throw err
+        console.log 'users table created'
         
         console.log "Creating default user 'admin' with password admin"
         salt = Auth.makeSalt()        
         app.sqlClient.query().
           insert('users',
-            ['firstname', 'lastname', 'username', 'salt', 'hashed_password', 'email'],
-            ['Project', 'Admin', 'admin', salt, Auth.createHashedPassword(salt, 'admin'), 'admin@project.com']
+            ['id', 'firstname', 'lastname', 'username', 'salt', 'hashed_password', 'email'],
+            [1, 'Project', 'Admin', 'admin', salt, Auth.createHashedPassword(salt, 'admin'), 'admin@project.com']
           ).execute (err, result) ->
             if err
               console.log 'ERROR creating user: ' + err
-              throw err
-            if result
+            else if result
               console.log 'User created with id: %s', result.id
     )
     
     console.log 'creating table groups'
     app.sqlClient.query().execute(
       "CREATE TABLE IF NOT EXISTS `groups` (
-          `id` bigint unsigned NOT NULL auto_increment,
+          `id` bigint NOT NULL auto_increment,
           `name` varchar(255) NOT NULL DEFAULT '',
           PRIMARY KEY (`id`),
           UNIQUE KEY (`name`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
-      (err) ->
-        console.log 'groups table created'
+      (err) ->        
         if err
           throw err
+        console.log 'groups table created'
           
         console.log "Creating default group 'Admins'"        
         app.sqlClient.query().
           insert('groups',
-            ['name'],
-            ['Admins']
+            ['id', 'name'],
+            [1, 'Admins']
           ).execute (err, result) ->
             if err
               console.log 'ERROR creating group: ' + err
-              throw err
-            if result
+            else if result
               console.log 'Group created with id: %s', result.id
     )
     
     console.log 'creating table group_users'
     app.sqlClient.query().execute(
       "CREATE TABLE IF NOT EXISTS `group_users` (
-          `id` bigint unsigned NOT NULL auto_increment,
+          `id` bigint NOT NULL auto_increment,
           `group_id` bigint NOT NULL DEFAULT 0,
           `user_id` bigint NOT NULL DEFAULT 0,
-          PRIMARY KEY (`id`)
+          PRIMARY KEY (`id`),
+          KEY `group_id` USING BTREE (`group_id`),
+          FOREIGN KEY (`group_id`) REFERENCES `groups`(`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+          KEY `user_id` USING BTREE (`user_id`),
+          FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE NO ACTION
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
-      (err) ->
-        console.log 'group_users table created'
+      (err) ->        
         if err
           throw err
+        console.log 'group_users table created'
           
-        console.log "Assigning user 'admin' to grou 'Admins'"
+        console.log "Assigning user 'admin' to group 'Admins'"
         app.sqlClient.query().
           insert('group_users',
-            ['group_id', 'user_id'],
-            [1, 1]
+            ['id', 'group_id', 'user_id'],
+            [1, 1, 1]
           ).execute (err, result) ->
             if err
               console.log 'ERROR assigning user to group: ' + err
-              throw err
-            if result
+            else if result
               console.log 'Group assigment created with id: %s', result.id
     )
     
     console.log 'creating table roles'
     app.sqlClient.query().execute(
       "CREATE TABLE IF NOT EXISTS `roles` (
-          `id` bigint unsigned NOT NULL auto_increment,
+          `id` bigint NOT NULL auto_increment,
           `name` varchar(255) NOT NULL DEFAULT '',
           PRIMARY KEY (`id`),
           UNIQUE KEY (`name`)
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
-      (err) ->
-        console.log 'roles table created'
+      (err) ->        
         if err
           throw err
+        console.log 'roles table created'
           
         console.log "Creating default role 'admin'"
         app.sqlClient.query().
           insert('roles',
-            ['name'],
-            ['admin']
+            ['id', 'name'],
+            [1, 'admin']
           ).execute (err, result) ->
             if err
               console.log 'ERROR creating role: ' + err
-              throw err
-            if result
+            else if result
               console.log 'Role created with id: %s', result.id
     )
     
     console.log 'creating table role_users'
     app.sqlClient.query().execute(
       "CREATE TABLE IF NOT EXISTS `role_users` (
-          `id` bigint unsigned NOT NULL auto_increment,
+          `id` bigint NOT NULL auto_increment,
           `role_id` bigint NOT NULL DEFAULT 0,
           `user_id` bigint NOT NULL DEFAULT 0,
-          PRIMARY KEY (`id`)
+          PRIMARY KEY (`id`),
+          KEY `role_id` USING BTREE (`role_id`),
+          FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+          KEY `user_id` USING BTREE (`user_id`),
+          FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE NO ACTION
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
-      (err) ->
-        console.log 'role_users table created'
+      (err) ->        
         if err
           throw err
+        console.log 'role_users table created'
           
         console.log "Assigning user 'admin' to role 'admin'"
         app.sqlClient.query().
           insert('role_users',
-            ['role_id', 'user_id'],
-            [1, 1]
+            ['id', 'role_id', 'user_id'],
+            [1, 1, 1]
           ).execute (err, result) ->
             if err
               console.log 'ERROR assigning user to role: ' + err
-              throw err
-            if result
+            else if result
               console.log 'Role assigment created with id: %s', result.id
     )
     
     console.log 'creating table role_groups'
     app.sqlClient.query().execute(
       "CREATE TABLE IF NOT EXISTS `role_groups` (
-          `id` bigint unsigned NOT NULL auto_increment,
+          `id` bigint NOT NULL auto_increment,
           `role_id` bigint NOT NULL DEFAULT 0,
           `group_id` bigint NOT NULL DEFAULT 0,
-          PRIMARY KEY (`id`)
+          PRIMARY KEY (`id`),
+          KEY `role_id` USING BTREE (`role_id`),
+          FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON DELETE CASCADE ON UPDATE NO ACTION,
+          KEY `group_id` USING BTREE (`group_id`),
+          FOREIGN KEY (`group_id`) REFERENCES `groups`(`id`) ON DELETE CASCADE ON UPDATE NO ACTION
       ) ENGINE=InnoDB DEFAULT CHARSET=utf8;",
-      (err) ->
-        console.log 'role_groups table created'
+      (err) ->        
         if err
           throw err
+        console.log 'role_groups table created'
           
         console.log "Assigning group 'Admins' to role 'admin'"
         app.sqlClient.query().
           insert('role_groups',
-            ['role_id', 'group_id'],
-            [1, 1]
+            ['id', 'role_id', 'group_id'],
+            [1, 1, 1]
           ).execute (err, result) ->
             if err
               console.log 'ERROR assigning group to role: ' + err
-              throw err
-            if result
+            else if result
               console.log 'Role assigment created with id: %s', result.id
     )
-    
-    setTimeout( () ->
-      process.exit 0
-    , 2000)
 )
 app.sqlClient.connect()
