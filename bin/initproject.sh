@@ -305,6 +305,7 @@ function cleanup_template_git()
 {
   print_info "Cleaning template project"
   rm -fR "$PWD/.git"
+  echo "bin/initproject.sh" >> "$PWD/.gitignore"
 }
 
 function initialize_project_git()
@@ -327,7 +328,7 @@ function initialize_project_storage()
   print_info "Initializing project storage"
 
   if [[ $PROJECT_TYPE == "mysql" ]] || [[ $PROJECT_TYPE == "drizzle" ]]; then
-    print_info "Create configured database and users. Then run 'coffee init_db.coffee' in project dir ($PWD)."
+    print_info "Create configured database and user. Then run 'coffee init_db.coffee' in project dir ($PWD)."
   else
     coffee "$PWD/init_db.coffee"
   fi
