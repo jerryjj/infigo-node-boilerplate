@@ -1,5 +1,7 @@
 crypto = require 'crypto'
 
+async = require('async')
+
 _checkRoleByName = (app, name) ->
   app.sqlClient.query().
     select('id').
