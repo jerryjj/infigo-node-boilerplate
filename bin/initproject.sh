@@ -29,7 +29,6 @@ function safe_exit()
 
 function show_help()
 {
-  #echo "Usage: $0 --name=project_name --type=(mysql|drizzle|mongo) [--deploy.port.staging=] [--deploy.port.production=] [--deploy.user=] [--deploy.host=] [--git.remote=]"
   cat << EOF
   usage: $0 -n project_name [additional_options]
 
