@@ -197,7 +197,7 @@ function prepare_deploy_config()
   DF="$PWD/config/deploy.rb"
   GIT_REMOTE=$(echo $GIT_REMOTE | sed -e 's/\//\\\//g')
   
-  cat "$DF" | sed -e "s/\[PROJECT\]/$PROJECT_NAME/g" -e "s/\[PROJECT_HOST\]/'$DEPLOY_HOST'/g" -e 's/\[PROJECT_GIT\]/'"$GIT_REMOTE"'/g' -e 's/\[PROJECT_HOST\]/'"$DEPLOY_HOST"'/g'  -e "s/\[DEPLOY_USER\]/$DEPLOY_USER/g" > "$DF-tmp"
+  cat "$DF" | sed -e "s/\[PROJECT\]/$PROJECT_NAME/g" -e 's/\[PROJECT_HOST\]/'"$DEPLOY_HOST"'/g' -e 's/\[PROJECT_GIT\]/'"$GIT_REMOTE"'/g' -e "s/\[DEPLOY_USER\]/$DEPLOY_USER/g" > "$DF-tmp"
   mv "$PWD/config/deploy.rb-tmp" "$PWD/config/deploy.rb"
   
   # config/deploy/production.rb
@@ -205,14 +205,16 @@ function prepare_deploy_config()
   DF="$PWD/config/deploy/production.rb"
   
   cat "$DF" | sed -e "s/\[PRODUCTION_PORT\]/$DEPLOY_PORT_PRODUCTION/g" > "$DF-tmp"
-  mv "$PWD/config/deploy/production.rb-tmp" "$PWD/config/deploy/production.rb.rb"
+  rm "$DF"
+  mv "$PWD/config/deploy/production.rb-tmp" "$DF"
   
   # config/deploy/staging.rb
   cp "$PWD/config/deploy/staging.rb" "$PWD/config/deploy/staging.rb-tmp"
   DF="$PWD/config/deploy/staging.rb"
   
   cat "$DF" | sed -e "s/\[STAGING_PORT\]/$DEPLOY_PORT_STAGING/g" > "$DF-tmp"
-  mv "$PWD/config/deploy/staging.rb-tmp" "$PWD/config/deploy/staging.rb.rb"
+  rm "$DF"
+  mv "$PWD/config/deploy/staging.rb-tmp" "$DF"
 }
 
 function prepare_project_config()

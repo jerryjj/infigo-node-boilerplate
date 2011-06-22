@@ -8,7 +8,7 @@ set :node_file, "app.coffee"
 set :host, "[PROJECT_HOST]"
 set :repository, "[PROJECT_GIT]"
 set :user, "[DEPLOY_USER]"
-set :admin_runner, '[DEPLOY_USER]'
+set :admin_runner, "[DEPLOY_USER]"
 
 set :scm, :git
 set :deploy_via, :remote_cache
