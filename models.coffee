@@ -158,7 +158,7 @@ defineModels = (mongoose, next) ->
   Role = new Schema
     name:
       type: String
-      validate: [validatePresenceOf, 'key is required']
+      validate: [validatePresenceOf, 'role name is required']
       index:
         unique: true
       set: toLower
