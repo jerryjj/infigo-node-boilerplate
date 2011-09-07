@@ -94,7 +94,7 @@ u.save (err, usr) ->
     }
 
     r = new Role {
-      key: 'admin'
+      name: 'admin'
       groups: [rg.toObject()]
     }
     r.save (err) ->
