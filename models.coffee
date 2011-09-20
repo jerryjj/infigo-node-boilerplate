@@ -2,6 +2,7 @@ crypto = require('crypto')
 CoffeeScript = require 'coffee-script'
 dateFormat = require 'dateformat'
 async = require('async')
+_ = require('underscore')
 
 toLower = (v) ->
   v.toLowerCase()
@@ -36,7 +37,8 @@ defineModels = (mongoose, next) ->
         default: ""
     hashed_password: String
     salt: String
-    roles: [String]
+    # roles: [String]
+    # groups: [String]
 
   User.virtual('id').get () ->
     this._id.toHexString()
@@ -75,7 +77,7 @@ defineModels = (mongoose, next) ->
     Group = mongoose.model 'Group'
     
     tasks = []
-    user_id = this._id    
+    user_id = this._id
     
     for rk in roles
       do (rk) ->
@@ -112,11 +114,7 @@ defineModels = (mongoose, next) ->
   GroupUser = new Schema
     user_id: ObjectId
     username: String
-    name:
-      first: String
-      last: String
-      full: String
-  
+
   ###
   Model: Groups
   ###
@@ -133,6 +131,10 @@ defineModels = (mongoose, next) ->
       if user.user_id.toString() == user_id.toString()
         return true
     return false
+
+  Group.method 'getGroupUser', (user_id) ->
+    _.detect this.users, (user)->
+      user.user_id.toString() == user_id.toString()
 
   ###
   Model: RoleGroup
@@ -164,6 +166,10 @@ defineModels = (mongoose, next) ->
       set: toLower
     groups: [RoleGroup]
     users: [RoleUser]
+
+  Role.method 'getRoleGroup', (group_id)->
+    _.detect this.groups, (group)->
+      group.group_id.toString() == group_id.toString()
 
   Role.method 'hasGroup', (group_id) ->
     for grp in this.groups
