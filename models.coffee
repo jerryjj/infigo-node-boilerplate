@@ -79,28 +79,27 @@ defineModels = (mongoose, next) ->
     tasks = []
     user_id = this._id
     
-    for rk in roles
-      do (rk) ->
-        tasks.push (cb) ->
-          Role.findOne {name: rk}, (err, role) ->
-            if err || !role
-              return cb(null, 0)
-            if role.hasUser user_id
-              cb(null, 1)
-            else if role.groups.length > 0
-              async.forEach role.groups, (grp, cbb) ->
-                Group.findOne {_id: grp.group_id}, (e, group) ->
-                  if group && group.hasUser user_id
-                    return cbb()
-                  else
-                    return cbb(0)
-              , (e, r) ->
-                if e
-                  cb(null, 0)
+    _.each roles, (rk) ->
+      tasks.push (cb) ->
+        Role.findOne {name: rk}, (err, role) ->
+          if err || !role
+            return cb(null, 0)
+          if role.hasUser user_id
+            cb(null, 1)
+          else if role.groups.length > 0
+            async.forEach role.groups, (grp, cbb) ->
+              Group.findOne {_id: grp.group_id}, (e, group) ->
+                if group && group.hasUser user_id
+                  return cbb(new Error 'found')
                 else
-                  cb(null, 1)
-            else
-              cb(null, 0)
+                  return cbb(0)
+            , (e) ->
+              if e
+                cb(null, 1)
+              else
+                cb(null, 0)
+          else
+            cb(null, 0)
     
     async.series tasks, (err, results) ->
       tot = 0
