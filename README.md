@@ -16,6 +16,13 @@ Missing roles are created automatically.
 
 Currently project doesn't include routes for managing user,groups or roles, but this is coming soon.
 
+For MongoDB, a module for user, group and role management is implemented at
+
+    lib/ugrManger.coffee
+A CLI using the above module:
+
+    ./cli-ugr.coffee
+
 # To create new project
 
 1. Clone as project name. (ie. "git clone git@github.com:jerryjj/infigo-node-boilerplate.git projectx")

@@ -2,6 +2,7 @@ crypto = require('crypto')
 CoffeeScript = require 'coffee-script'
 dateFormat = require 'dateformat'
 async = require('async')
+_ = require('underscore')
 
 toLower = (v) ->
   v.toLowerCase()
@@ -36,7 +37,8 @@ defineModels = (mongoose, next) ->
         default: ""
     hashed_password: String
     salt: String
-    roles: [String]
+    # roles: [String]
+    # groups: [String]
 
   User.virtual('id').get () ->
     this._id.toHexString()
@@ -75,30 +77,29 @@ defineModels = (mongoose, next) ->
     Group = mongoose.model 'Group'
     
     tasks = []
-    user_id = this._id    
+    user_id = this._id
     
-    for rk in roles
-      do (rk) ->
-        tasks.push (cb) ->
-          Role.findOne {name: rk}, (err, role) ->
-            if err || !role
-              return cb(null, 0)
-            if role.hasUser user_id
-              cb(null, 1)
-            else if role.groups.length > 0
-              async.forEach role.groups, (grp, cbb) ->
-                Group.findOne {_id: grp.group_id}, (e, group) ->
-                  if group && group.hasUser user_id
-                    return cbb()
-                  else
-                    return cbb(0)
-              , (e, r) ->
-                if e
-                  cb(null, 0)
+    _.each roles, (rk) ->
+      tasks.push (cb) ->
+        Role.findOne {name: rk}, (err, role) ->
+          if err || !role
+            return cb(null, 0)
+          if role.hasUser user_id
+            cb(null, 1)
+          else if role.groups.length > 0
+            async.forEach role.groups, (grp, cbb) ->
+              Group.findOne {_id: grp.group_id}, (e, group) ->
+                if group && group.hasUser user_id
+                  return cbb(new Error 'found')
                 else
-                  cb(null, 1)
-            else
-              cb(null, 0)
+                  return cbb(0)
+            , (e) ->
+              if e
+                cb(null, 1)
+              else
+                cb(null, 0)
+          else
+            cb(null, 0)
     
     async.series tasks, (err, results) ->
       tot = 0
@@ -112,11 +113,7 @@ defineModels = (mongoose, next) ->
   GroupUser = new Schema
     user_id: ObjectId
     username: String
-    name:
-      first: String
-      last: String
-      full: String
-  
+
   ###
   Model: Groups
   ###
@@ -133,6 +130,10 @@ defineModels = (mongoose, next) ->
       if user.user_id.toString() == user_id.toString()
         return true
     return false
+
+  Group.method 'getGroupUser', (user_id) ->
+    _.detect this.users, (user)->
+      user.user_id.toString() == user_id.toString()
 
   ###
   Model: RoleGroup
@@ -158,12 +159,16 @@ defineModels = (mongoose, next) ->
   Role = new Schema
     name:
       type: String
-      validate: [validatePresenceOf, 'key is required']
+      validate: [validatePresenceOf, 'role name is required']
       index:
         unique: true
       set: toLower
     groups: [RoleGroup]
     users: [RoleUser]
+
+  Role.method 'getRoleGroup', (group_id)->
+    _.detect this.groups, (group)->
+      group.group_id.toString() == group_id.toString()
 
   Role.method 'hasGroup', (group_id) ->
     for grp in this.groups

@@ -2,6 +2,7 @@
   "name": "[PROJECT]",
   "description": "[PROJECT] description here",
   "version": "0.0.1",
+  "main": "app.coffee",
   "homepage": "",
   "author": "",
   "directories": {
@@ -19,7 +20,10 @@
     "funk": ">= 1.0.1",
     "async": ">= 0.1.9",
     "mongoose": ">= 1.1.4",
-    "connect-mongodb": ">= 0.2.1"
+    "connect-mongodb": ">= 0.2.1",
+    "underscore": ">=1.1.7",
+    "optimist": ">=0.2.6",
+    "winston": ">=0.5.2"
   }
 }
 
